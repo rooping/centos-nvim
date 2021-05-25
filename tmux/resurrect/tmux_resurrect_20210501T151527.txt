@@ -1,0 +1,13 @@
+pane	0	1	:zsh	0	:	1	:/root	1	zsh	:
+pane	0	2	:zsh	0	:	1	:/root	1	zsh	:
+pane	0	3	:zsh	0	:	1	:/root	1	zsh	:
+pane	0	4	:image-	0	:-	1	:/root	0	zsh	:
+pane	0	4	:image-	0	:-	2	:/root	1	zsh	:
+pane	0	5	:kafaka	1	:*	1	:/root	1	zsh	:
+pane	0	5	:kafaka	1	:*	2	:/root	0	zsh	:
+window	0	1	0	:	91ad,143x132,0,0,0
+window	0	2	0	:	91ae,143x132,0,0,1
+window	0	3	0	:	91af,143x132,0,0,2
+window	0	4	0	:-	29ad,143x132,0,0[143x66,0,0,3,143x65,0,67,4]
+window	0	5	1	:*	29b2,143x132,0,0[143x66,0,0,5,143x65,0,67,6]
+state	0	

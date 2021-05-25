@@ -1,0 +1,4 @@
+pane	0	1	:zsh	1	:*	1	:/root	0	zsh	:
+pane	0	1	:zsh	1	:*	2	:/root	1	zsh	:
+window	0	1	1	:*	a9a5,143x132,0,0[143x66,0,0,0,143x65,0,67,1]
+state	0	

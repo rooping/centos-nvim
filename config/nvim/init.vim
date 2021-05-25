@@ -2,8 +2,10 @@
 " The following vim/neovim configuration works for both Vim and NeoVim
 
 " ensure vim-plug is installed and then load it
+" if you not to use, enter:
+"     nvim -u NONE filename
 call functions#PlugLoad()
-call plug#begin('~/.config/nvim/plugged')
+call plug#begin('/root/.dotfiles/config/nvim/plugged')
 
 " General {{{
     " Abbreviations
@@ -76,6 +78,8 @@ call plug#begin('~/.config/nvim/plugged')
     set updatetime=300
     set signcolumn=yes
     set shortmess+=c
+    " indicate cursorline"
+    set cursorline
 
     " Tab control
     set smarttab " tab respects 'tabstop', 'shiftwidth', and 'softtabstop'
@@ -92,8 +96,26 @@ call plug#begin('~/.config/nvim/plugged')
     set foldlevel=1
 
     " toggle invisible characters
-    set list
-    set listchars=tab:→\ ,eol:¬,trail:⋅,extends:❯,precedes:❮
+    " set list
+    " set listchars=tab:→\ ,eol:¬,trail:⋅,extends:❯,precedes:❮
+
+    " toggle column mode"
+    map <F2> :call TogglecolumnMode()<CR>
+    let s:enabledcolumn = 1
+
+    function! TogglecolumnMode()
+        "IndentLinesToggle
+    if s:enabledcolumn
+        set nonu
+        set scl=no
+        let s:enabledcolumn = 0
+    else
+        set nu
+        set scl=yes
+        let s:enabledcolumn = 1
+        let g:indentLine_enabled = 0
+    endif
+    endfunction
 
     set t_Co=256 " Explicitly tell vim that the terminal supports 256 colors
     " switch cursor to line when in insert mode, and block when not
@@ -171,21 +193,13 @@ call plug#begin('~/.config/nvim/plugged')
 
 " General Mappings {{{
     " set a map leader for more key combos
-    let mapleader = ','
+    let mapleader = ';'
 
     " remap esc
     inoremap jk <esc>
 
-    " shortcut to save
-    nmap <leader>, :w<cr>
-
     " set paste toggle
     set pastetoggle=<leader>v
-
-    " edit ~/.config/nvim/init.vim
-    map <leader>ev :e! ~/.config/nvim/init.vim<cr>
-    " edit gitconfig
-    map <leader>eg :e! ~/.gitconfig<cr>
 
     " clear highlighted search
     noremap <space> :set hlsearch! hlsearch?<cr>
@@ -243,7 +257,7 @@ call plug#begin('~/.config/nvim/plugged')
     vnoremap $< <esc>`>a><esc>`<i<<esc>
 
     " toggle cursor line
-    nnoremap <leader>i :set cursorline!<cr>
+    " nnoremap <leader>i :set cursorline!<cr>
 
     " scroll the viewport faster
     nnoremap <C-e> 3<C-e>
@@ -288,6 +302,8 @@ call plug#begin('~/.config/nvim/plugged')
 " }}}
 
 " AutoGroups {{{
+    " remember last position"
+    au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "no rm $"|endif|endif
     " file type specific settings
     augroup configgroup
         autocmd!
@@ -310,6 +326,9 @@ call plug#begin('~/.config/nvim/plugged')
     " better terminal integration
     " substitute, search, and abbreviate multiple variants of a word
     Plug 'tpope/vim-abolish'
+
+    " comment tool"
+    Plug 'scrooloose/nerdcommenter'
 
     " easy commenting motions
     Plug 'tpope/vim-commentary'
@@ -364,7 +383,7 @@ call plug#begin('~/.config/nvim/plugged')
         \ ]
 
         let g:startify_bookmarks = [
-            \ { 'c': '~/.config/nvim/init.vim' },
+            \ { 'c': '/root/.dotfiles/config/nvim/init.vim' },
             \ { 'g': '~/.gitconfig' },
             \ { 'z': '~/.zshrc' }
         \ ]
@@ -390,7 +409,7 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'ryanoasis/vim-devicons'
 
     " FZF {{{
-        Plug $HOMEBREW_PREFIX . '/opt/fzf'
+        Plug $HOMEBREW_PREFIX . '/root/.dotfiles/fzf'
         Plug 'junegunn/fzf.vim'
 
         if isdirectory(".git")
@@ -403,8 +422,9 @@ call plug#begin('~/.config/nvim/plugged')
 
         nmap <silent> <leader>s :GFiles?<cr>
 
-        nmap <silent> <leader>r :Buffers<cr>
-        nmap <silent> <leader>e :FZF<cr>
+        nmap <silent> <leader>b :Buffers<cr>
+        nmap <silent> <leader>p :FZF<cr>
+        nmap <silent> <leader>w :Rg<space>
         nmap <leader><tab> <plug>(fzf-maps-n)
         xmap <leader><tab> <plug>(fzf-maps-x)
         omap <leader><tab> <plug>(fzf-maps-o)
@@ -455,6 +475,22 @@ call plug#begin('~/.config/nvim/plugged')
         let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.5, 'highlight': 'Comment' } }
     " }}}
 
+
+    " minibuffer {{{
+        Plug 'fholgado/minibufexpl.vim'
+        let g:miniBufExplMapWindowNavVim = 1
+        let g:miniBufExplMapWindowNavArrows = 1
+        let g:miniBufExplMapCTabSwitchBufs = 1
+        let g:miniBufExplModSelTarget = 1
+        let g:miniBufExplMoreThanOne=0
+        let g:miniBufExplBRSplit = 0
+        let g:bufferline_echo = 0
+        let g:miniBufExplBuffersNeeded = 1
+        map <C-h>  :bp<CR>
+        map <C-l> :bn<CR>
+    " }}}
+
+
     " vim-fugitive {{{
         Plug 'tpope/vim-fugitive'
         nmap <silent> <leader>gs :Gstatus<cr>
@@ -473,13 +509,17 @@ call plug#begin('~/.config/nvim/plugged')
         let g:UltiSnipsJumpForwardTrigger="<C-j>"
         let g:UltiSnipsJumpBackwardTrigger="<C-k>"
     " }}}
+    
+    " leaderf {{{
+        Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
+        let g:Lf_ShortcutF = '<C-P>'
+    " }}}
 
     " coc {{{
         Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
         let g:coc_global_extensions = [
         \ 'coc-css',
-        \ 'coc-json',
         \ 'coc-tsserver',
         \ 'coc-git',
         \ 'coc-eslint',
@@ -499,6 +539,9 @@ call plug#begin('~/.config/nvim/plugged')
         " coc-prettier
         command! -nargs=0 Prettier :CocCommand prettier.formatFile
         nmap <leader>f :CocCommand prettier.formatFile<cr>
+
+        let g:go_def_mode='gopls'
+        let g:go_info_mode='gopls'
 
         " coc-git
         nmap [g <Plug>(coc-git-prevchunk)
@@ -576,6 +619,7 @@ call plug#begin('~/.config/nvim/plugged')
     " html / templates {{{
         " emmet support for vim - easily create markdup wth CSS-like syntax
         Plug 'mattn/emmet-vim'
+        "Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
         " match tags in html, similar to paren support
         Plug 'gregsexton/MatchTag', { 'for': 'html' }
@@ -630,10 +674,10 @@ call plug#begin('~/.config/nvim/plugged')
         nmap <leader>* *<c-o>:%s///gn<cr>
     " }}}
 
-    " JSON {{{
-        Plug 'elzr/vim-json', { 'for': 'json' }
-        let g:vim_json_syntax_conceal = 0
-    " }}}
+     "JSON {{{
+        "Plug 'elzr/vim-json', { 'for': 'json' }
+        "let g:vim_json_syntax_conceal = 0
+     "}}}
 
     Plug 'ekalinin/Dockerfile.vim'
     Plug 'jparise/vim-graphql'
@@ -650,7 +694,7 @@ call plug#end()
     else
         let g:onedark_termcolors=16
         let g:onedark_terminal_italics=1
-        colorscheme onedark
+        "colorscheme onedark
     endif
     syntax on
     filetype plugin indent on
@@ -667,3 +711,9 @@ call plug#end()
 " }}}
 
 " vim:set foldmethod=marker foldlevel=0
+"
+"
+"format jsonfile
+ command! Jsonf :execute '%!python -m json.tool'
+  \ | :execute '%!python -c "import re,sys;sys.stdout.write(re.sub(r\"\\\u[0-9a-f]{4}\", lambda m:m.group().decode(\"unicode_escape\").encode(\"utf-8\"), sys.stdin.read()))"'
+
