@@ -3,6 +3,7 @@
     ci = commit
     st  = status
     br = branch
+    lg = log --graph --decorate --oneline --simplify-by-decoration --all
 [color]
     status = auto
     branch = auto

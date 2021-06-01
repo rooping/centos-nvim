@@ -1,0 +1,18 @@
+pane	0	1	:zsh	0	:Z	1	:/root/workspace/coderepo/open_source/clairctl	1	docker	:docker run -it clairctl:v1 sh
+pane	0	1	:zsh	0	:Z	2	:/var/lib/docker/overlay2/566199f3d95558386416fb70a96433e44745db9052175d41e7d1842c6615ddda	0	zsh	:
+pane	0	2	:warning	0	:	1	:/root/workspace/coderepo/tcss/WarningPlatform	1	zsh	:
+pane	0	3	:image-manager	1	:*	1	:/root/workspace/coderepo/tcss/docker-scan-proxy	1	zsh	:
+pane	0	4	:zsh	0	:Z	1	:/root	0	zsh	:
+pane	0	4	:zsh	0	:Z	2	:/root/workspace/coderepo/tcss/tcss/dbsql	1	zsh	:
+pane	0	5	:image-service	0	:Z	1	:/root	0	zsh	:
+pane	0	5	:image-service	0	:Z	2	:/root/workspace/coderepo/tcss/image-service	1	zsh	:
+pane	0	6	:trivy	0	:	1	:/root/workspace/coderepo/open_source	1	zsh	:
+pane	0	7	:layer-serivces	0	:-	1	:/root/workspace/coderepo/tcss/docker-scan	1	zsh	:
+window	0	1	0	:Z	29a8,143x132,0,0[143x66,0,0,1,143x65,0,67,2]
+window	0	2	0	:	91b0,143x132,0,0,3
+window	0	3	1	:*	91b1,143x132,0,0,4
+window	0	4	0	:Z	29b2,143x132,0,0[143x66,0,0,5,143x65,0,67,6]
+window	0	5	0	:Z	29b7,143x132,0,0[143x66,0,0,7,143x65,0,67,8]
+window	0	6	0	:	91b6,143x132,0,0,9
+window	0	7	0	:-	4907,143x132,0,0,10
+state	0	
