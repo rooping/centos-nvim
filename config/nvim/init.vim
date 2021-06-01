@@ -186,20 +186,18 @@ call plug#begin('/root/.dotfiles/config/nvim/plugged')
     vmap < <gv
     vmap > >gv
 
-    " switch between current and last buffer
-    nmap <leader>. <c-^>
-
     " enable . command in visual mode
     vnoremap . :normal .<cr>
 
-    map <silent> <C-h> <Plug>WinMoveLeft
-    map <silent> <C-j> <Plug>WinMoveDown
-    map <silent> <C-k> <Plug>WinMoveUp
-    map <silent> <C-l> <Plug>WinMoveRight
     nnoremap <S-j> 4j
     nnoremap <S-k> 4k
     nnoremap <S-h> 5h
     nnoremap <S-l> 5l
+
+    nnoremap <leader>h <C-w>h
+    nnoremap <leader>j <C-w>j
+    nnoremap <leader>k <C-w>k
+    nnoremap <leader>l <C-w>l
 
     nmap <leader>z <Plug>Zoom
 
@@ -208,12 +206,12 @@ call plug#begin('/root/.dotfiles/config/nvim/plugged')
     " move line mappings
     " ∆ is <A-j> on macOS
     " ˚ is <A-k> on macOS
-    nnoremap ∆ :m .+1<cr>==
-    nnoremap ˚ :m .-2<cr>==
-    inoremap ∆ <Esc>:m .+1<cr>==gi
-    inoremap ˚ <Esc>:m .-2<cr>==gi
-    vnoremap ∆ :m '>+1<cr>gv=gv
-    vnoremap ˚ :m '<-2<cr>gv=gv
+    " nnoremap ∆ :m .+1<cr>==
+    " nnoremap ˚ :m .-2<cr>==
+    " inoremap ∆ <Esc>:m .+1<cr>==gi
+    " inoremap ˚ <Esc>:m .-2<cr>==gi
+    " vnoremap ∆ :m '>+1<cr>gv=gv
+    " vnoremap ˚ :m '<-2<cr>gv=gv
 
     vnoremap $( <esc>`>a)<esc>`<i(<esc>
     vnoremap $[ <esc>`>a]<esc>`<i[<esc>
@@ -493,38 +491,39 @@ call plug#begin('/root/.dotfiles/config/nvim/plugged')
         Plug 'rbong/vim-flog'
     " }}}
 
-    " UltiSnips {{{
-        Plug 'SirVer/ultisnips' " Snippets plugin
-        let g:UltiSnipsExpandTrigger="<C-l>"
-        let g:UltiSnipsJumpForwardTrigger="<C-j>"
-        let g:UltiSnipsJumpBackwardTrigger="<C-k>"
-    " }}}
-    
     " leaderf {{{
         Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
         let g:Lf_ShortcutF = '<C-P>'
     " }}}
     
-    " nerdtree {{{
-        Plug 'preservim/nerdtree'
-        Plug 'Xuyuanp/nerdtree-git-plugin'
-        " autocmd vimenter * NERDTree  "自动开启Nerdtree
-        let g:NERDTreeWinSize = 25 "设定 NERDTree 视窗大小
-        let NERDTreeShowBookmarks=1  " 开启Nerdtree时自动显示Bookmarks
-        "打开vim时如果没有文件自动打开NERDTree
-        " autocmd vimenter * if !argc()|NERDTree|endif
-        "当NERDTree为剩下的唯一窗口时自动关闭
-        autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-        " 设置树的显示图标
-        let g:NERDTreeDirArrowExpandable = '+'
-        let g:NERDTreeDirArrowCollapsible = '-'
-        let NERDTreeIgnore = ['\.pyc$']  " 过滤所有.pyc文件不显示
-        let g:NERDTreeShowLineNumbers=0 " 是否显示行号
-        let g:NERDTreeHidden=0     "不显示隐藏文件
-        ""Making it prettier
-        let NERDTreeMinimalUI = 1
-        let NERDTreeDirArrows = 1
-        nnoremap <F3> :NERDTreeToggle<CR> " 开启/关闭nerdtree快捷键
+    " nerdtree {{{ // replace by coc-explorer
+        "Plug 'preservim/nerdtree'
+        "Plug 'Xuyuanp/nerdtree-git-plugin'
+        "" autocmd vimenter * NERDTree  "自动开启Nerdtree
+        "let g:NERDTreeWinSize = 25 "设定 NERDTree 视窗大小
+        "let NERDTreeShowBookmarks=1  " 开启Nerdtree时自动显示Bookmarks
+        "let NERDTreeWinPos='right'
+        ""打开vim时如果没有文件自动打开NERDTree
+        "" autocmd vimenter * if !argc()|NERDTree|endif
+        ""当NERDTree为剩下的唯一窗口时自动关闭
+        "autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+        "" 设置树的显示图标
+        "let g:NERDTreeDirArrowExpandable = '+'
+        "let g:NERDTreeDirArrowCollapsible = '-'
+        "let NERDTreeIgnore = ['\.pyc$']  " 过滤所有.pyc文件不显示
+        "let g:NERDTreeShowLineNumbers=0 " 是否显示行号
+        "let g:NERDTreeHidden=0     "不显示隐藏文件
+        """Making it prettier
+        "let NERDTreeMinimalUI = 1
+        "let NERDTreeDirArrows = 1
+        "nnoremap <F4> :NERDTreeToggle<CR> " 开启/关闭nerdtree快捷键
+    " }}}
+    
+    " tagbar {{{
+         Plug 'majutsushi/tagbar'
+         let g:tagbar_width=30
+         let g:tagbar_left=1
+         nnoremap <silent> <F4> :TagbarToggle<CR> " 将tagbar的开关按键设置为 F4
     " }}}
 
 
@@ -540,16 +539,20 @@ call plug#begin('/root/.dotfiles/config/nvim/plugged')
         \ 'coc-pairs',
         \ 'coc-json',
         \ 'coc-sh',
+        \ 'coc-yaml',
+        \ 'coc-syntax',
         \ 'coc-go',
         \ 'coc-pyright',
         \ 'coc-vimlsp',
         \ 'coc-emmet',
+        \ 'coc-snippets',
         \ 'coc-prettier',
         \ 'coc-explorer',
         \ 'coc-diagnostic'
         \ ]
 
         autocmd CursorHold * silent call CocActionAsync('highlight')
+        autocmd BufWritePre *.go :silent call CocAction('runCommand', 'editor.action.organizeImport')
 
         " coc-prettier
         command! -nargs=0 Prettier :CocCommand prettier.formatFile
@@ -578,17 +581,25 @@ call plug#begin('/root/.dotfiles/config/nvim/plugged')
         nmap <silent> ]c <Plug>(coc-diagnostic-next)
 
         " rename
-        nmap <silent> <leader>c <Plug>(coc-rename)
+        nmap <leader>rn <Plug>(coc-rename)
+
+        " refactor
+        nmap <leader>rf <Plug>(coc-refactor)
+
+        " refactor search all match word
+        nmap <leader>rs :CocSearch 
 
         " Remap for format selected region
         xmap <leader>f  <Plug>(coc-format-selected)
         nmap <leader>f  <Plug>(coc-format-selected)
 
+        nnoremap <F4> :CocCommand explorer --preset floating<CR>
+
         " organize imports
         command! -nargs=0 OR :call CocAction('runCommand', 'editor.action.organizeImport')
 
         " Use K to show documentation in preview window
-        " nnoremap <silent> K :call <SID>show_documentation()<CR>
+        nmap <silent> gk :call <SID>show_documentation()<CR>
 
         function! s:show_documentation()
             if (index(['vim','help'], &filetype) >= 0)
@@ -598,12 +609,17 @@ call plug#begin('/root/.dotfiles/config/nvim/plugged')
             endif
         endfunction
 
-        "tab completion
+        " Use <C-l> for trigger snippet expand.
+        imap <C-l> <Plug>(coc-snippets-expand)
+
+        " " Use <C-j> for select text for visual placeholder of snippet.
+        vmap <C-j> <Plug>(coc-snippets-select)
+
         inoremap <silent><expr> <TAB>
-            \ pumvisible() ? "\<C-n>" :
+            \ pumvisible() ? coc#_select_confirm() :
+            \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
             \ <SID>check_back_space() ? "\<TAB>" :
             \ coc#refresh()
-        inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
         if has('nvim')
             inoremap <silent><expr> <c-space> coc#refresh()
@@ -615,6 +631,8 @@ call plug#begin('/root/.dotfiles/config/nvim/plugged')
         let col = col('.') - 1
         return !col || getline('.')[col - 1]  =~# '\s'
         endfunction
+
+        let g:coc_snippet_next = '<tab>'
 
         " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
         " position. Coc only does snippet and additional edit on confirm.
@@ -766,7 +784,7 @@ call plug#end()
     syntax on
     filetype plugin indent on
     set background=dark
-    colo monokai
+    colorscheme monokai
     " make the highlighting of tabs and other non-text less annoying
     highlight SpecialKey ctermfg=19 guifg=#333333
     highlight NonText ctermfg=19 guifg=#333333
