@@ -522,7 +522,7 @@ call plug#begin('/root/.dotfiles/config/nvim/plugged')
     " tagbar {{{
          Plug 'majutsushi/tagbar'
          let g:tagbar_width=30
-         let g:tagbar_left=1
+         let g:tagbar_left=0
          nnoremap <silent> <F4> :TagbarToggle<CR> " 将tagbar的开关按键设置为 F4
     " }}}
 
@@ -593,7 +593,50 @@ call plug#begin('/root/.dotfiles/config/nvim/plugged')
         xmap <leader>f  <Plug>(coc-format-selected)
         nmap <leader>f  <Plug>(coc-format-selected)
 
-        nnoremap <F4> :CocCommand explorer --preset floating<CR>
+        let g:coc_explorer_global_presets = {
+            \   '.vim': {
+            \     'root-uri': '~/.vim',
+            \   },
+            \   'cocConfig': {
+            \      'root-uri': '~/.config/coc',
+            \   },
+            \   'tab': {
+            \     'position': 'tab',
+            \     'quit-on-open': v:true,
+            \   },
+            \   'tab:$': {
+            \     'position': 'tab:$',
+            \     'quit-on-open': v:true,
+            \   },
+            \   'floating': {
+            \     'position': 'floating',
+            \     'open-action-strategy': 'sourceWindow',
+            \   },
+            \   'floatingTop': {
+            \     'position': 'floating',
+            \     'floating-position': 'center-top',
+            \     'open-action-strategy': 'sourceWindow',
+            \   },
+            \   'floatingLeftside': {
+            \     'position': 'floating',
+            \     'floating-position': 'left-center',
+            \     'floating-width': 50,
+            \     'open-action-strategy': 'sourceWindow',
+            \   },
+            \   'floatingRightside': {
+            \     'position': 'floating',
+            \     'floating-position': 'right-center',
+            \     'floating-width': 50,
+            \     'open-action-strategy': 'sourceWindow',
+            \   },
+            \   'simplify': {
+            \     'file-child-template': '[selection | clip | 1] [indent][icon | 1] [filename omitCenter 1]'
+            \   },
+            \   'buffer': {
+            \     'sources': [{'name': 'buffer', 'expand': v:true}]
+            \   },
+            \ }
+        nnoremap <F3> :CocCommand explorer --preset floating<CR>
 
         " organize imports
         command! -nargs=0 OR :call CocAction('runCommand', 'editor.action.organizeImport')
